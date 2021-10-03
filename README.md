@@ -40,11 +40,11 @@ zuul:
       serviceId: shopping-auth-service
 ```
 
-##### Service registration and discovery   
+##### Service Registration and Discovery   
 
 Registration and discovery is taken care by the HashiCorp’s Consul. During the startup of the individual services, they register with service registration service those details such as host name, port etc. by which the services can be accessed. Once the service is registered to the consul, consul checks for the health of the service by sending a heartbeat for the health check path and health check interval that has been registered with Consul. Requests to the micro-services has to be routed through shopping-api-gateway during with the shopping-api-gateway contacts discovery service to get the information required to send the request to the intended microservice. 
 
-Configuration done in microservices to register to Consul:   
+Consul Configuration for microservices to register:   
 ```
 # CONSUL CONFIGURATION
 spring:
@@ -61,7 +61,7 @@ spring:
 ```
 Consul management can be accessed through -  http://localhost:8500/ui/  
 
-### Technology
+### Technology Used
 
 Microservices sample project uses a number of open source projects to work properly:
 
@@ -74,14 +74,14 @@ Microservices sample project uses a number of open source projects to work prope
 * [Kibana] - Log Data visualization
 * [Swagger] - API documentation
 
-### Tools
+### Build Tools
 
 * [Java] - Programming
 * [Maven] - Build
 * [Git] - Version control
 * [Docker] - Deployment
 
-### Development
+### Development environment setup
 
 Follow the steps to bring up the development environment in your local and access the service.
 
