@@ -1,0 +1,42 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /
+    
+spring:
+  application:
+    name: shopping-auth-service
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+
+---
+# DOCKER CONFIGURATION
+spring:
+  profiles: dev
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+      discovery:
+        hostname: shopping-auth-service
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        
+logging:
+  level:
+    web: debug
+      
+
+      

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.bharathi</groupId>
+	<artifactId>microservices-sample</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<name>Microservices Sample for E-commerce</name>
+	<description>Microservices Sample for E-commerce</description>
+
+	<developers>
+		<developer>
+			<name>Bharathidasan</name>
+			<email>maniltobmanickam@gmail.com</email>
+		</developer>
+	</developers>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.0.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<modules>
+		<module>shopping-api-gateway</module>
+		<module>shopping-auth-service</module>
+		<module>shopping-customer-service</module>
+		<module>shopping-order-service</module>		
+	</modules>
+	
+</project>
