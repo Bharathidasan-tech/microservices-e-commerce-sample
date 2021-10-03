@@ -23,34 +23,40 @@ Configuration done in API Gateway for Routing:
 ```
 zuul:
   ignoredServices: '*'
+  sensitive-headers:
+  - Cookie,Set-Cookie
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000    
   routes:
-    one:
-      path: /service-one/**
-      serviceId: Service-One
-    two:
-      path: /service-two/**
-      serviceId: Service-Two
+    customer-service:
+      path: /customer-api/**
+      serviceId: shopping-customer-service
+    order-service:
+      path: /order-api/**
+      serviceId: shopping-order-service
+    auth-service:
+      path: /auth-api/**
+      serviceId: shopping-auth-service
 ```
 
 ##### Service registration and discovery   
 
-Registration and discovery is taken care by the HashiCorp’s Consul. During the startup of the individual services, they register with service registration service those details such as host name, port etc. by which the services can be accessed. Once the service is registered to the consul, consul checks for the health of the service by sending a heartbeat for the health check path and health check interval that has been registered with Consul. Requests to the micro-services has to be routed through api-gateway during with the api-gateway contacts discovery service to get the information required to send the request to the intended microservice. 
+Registration and discovery is taken care by the HashiCorp’s Consul. During the startup of the individual services, they register with service registration service those details such as host name, port etc. by which the services can be accessed. Once the service is registered to the consul, consul checks for the health of the service by sending a heartbeat for the health check path and health check interval that has been registered with Consul. Requests to the micro-services has to be routed through shopping-api-gateway during with the shopping-api-gateway contacts discovery service to get the information required to send the request to the intended microservice. 
 
-Configuration done in micro services to register to Consul:   
+Configuration done in microservices to register to Consul:   
 ```
-management:
-  contextPath: /actuator
-
+# CONSUL CONFIGURATION
 spring:
-  application.name: service-one
+  profiles: dev
   cloud:
     consul:
       host: consul
       port: 8500
       discovery:
-        hostName: service-one
-        instanceId:${spring.application.name}:${spring.application.instance_id:${random.value}}
-        healthCheckPath: ${management.contextPath}/health
+        hostname: shopping-customer-service
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        healthCheckPath: /actuator/health
         healthCheckInterval: 15s
 ```
 Consul management can be accessed through -  http://localhost:8500/ui/  
@@ -83,8 +89,8 @@ Follow the steps to bring up the development environment in your local and acces
 2) Clone the project using "git clone https://github.com/Bharathidasan-tech/microservices-e-commerce-sample.git" /br>
 3) Run the command "cd /microservices-e-commerce-sample/build/docker/scripts/"</br>
 4) Deploy Docker - run "sh ./deploy.sh dev".</br>
-5) Access the Application at http://localhost:8080/</br></br>
-6) To stop and Removing all containers - run "sh ./clean.sh".</br>
+5) Access the Application at http://localhost:8080/</br>
+6) To stop and Removing all containers - run "sh ./clean.sh".</br></br>
 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job.)
