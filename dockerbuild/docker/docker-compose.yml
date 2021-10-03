@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # ---------------------------
+  # API Gateway
+  # ---------------------------
+  shopping-api-gateway:
+    container_name: "shopping-api-gateway"
+    hostname: "shopping-api-gateway"
+    build: ../../shopping-api-gateway/target
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080" 
+    depends_on:
+      - consul
+    environment:
+      - SPRING_PROFILES_ACTIVE=${profile}
+    networks:
+      - backend
+      
+  # ---------------------------
+  # API Oauth2
+  # ---------------------------
+  shopping-auth-service:
+    container_name: "shopping-auth-service"
+    hostname: "shopping-auth-service"
+    build: ../../shopping-auth-service/target
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090" 
+    depends_on:
+      - consul
+    environment:
+      - SPRING_PROFILES_ACTIVE=${profile}
+    networks:
+      - backend
+
+  # ---------------------------
+  # Customer Service
+  # ---------------------------
+  shopping-customer-service:
+    container_name: "shopping-customer-service"
+    hostname: "shopping-customer-service"
+    build: ../../shopping-customer-service/target
+    ports:
+      - "8082:8082"
+    expose:
+      - "8082"
+    depends_on: 
+      - consul      
+    environment:
+      - SPRING_PROFILES_ACTIVE=${profile}
+    networks:
+      - backend
+
+  
+  # ---------------------------
+  # Order Service
+  # ---------------------------
+  shopping-order-service:
+    container_name: "shopping-order-service"
+    hostname: "shopping-order-service"
+    build: ../../shopping-order-service/target
+    ports:
+      - "8083:8083"
+    expose:
+      - "8083"
+    depends_on:
+      - consul
+    environment:
+      - SPRING_PROFILES_ACTIVE=${profile}
+    networks:
+      - backend
+
+
+  # ---------------------------
+  # Registration and
+  # Discovery Cluster
+  # ---------------------------
+  consul:
+    image: consul:1.10.1
+    container_name: "consul"
+    hostname: "consul"
+    command: consul agent -server -client 0.0.0.0 -ui -bootstrap-expect=3 -data-dir=/consul/data -retry-join=consul2 -retry-join=consul3 -datacenter=blr
+    ports:
+      - "8500:8500"
+      - "8600:8600"
+    networks:
+      - backend
+  consul2:
+    image: consul:1.10.1
+    container_name: "consul-2"
+    hostname: "consul2"
+    expose:
+      - "8500"
+      - "8600"
+    command: consul agent -server -data-dir=/consul/data -retry-join=consul -retry-join=consul3 -datacenter=blr
+    links:
+      - consul
+    networks:
+      - backend
+  consul3:
+    image: consul:1.10.1
+    container_name: "consul-3"
+    hostname: "consul3"
+    expose:
+      - "8500"
+      - "8600"
+    command: consul agent -server -data-dir=/consul/data -retry-join=consul -retry-join=consul2 -datacenter=blr
+    links:
+      - consul
+      - consul2
+    networks:
+      - backend
+
+
+networks:
+
+  backend:
+    driver: bridge
+  

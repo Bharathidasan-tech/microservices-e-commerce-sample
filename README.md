@@ -87,7 +87,7 @@ Follow the steps to bring up the development environment in your local and acces
 
 1) Install Git, Java, Maven and Docker</br>
 2) Clone the project using "git clone https://github.com/Bharathidasan-tech/microservices-e-commerce-sample.git" </br>
-3) Run the command "cd /microservices-e-commerce-sample/build/docker/scripts/"</br>
+3) Run the command "cd /microservices-e-commerce-sample/dockerbuild/docker/scripts/"</br>
 4) Deploy Docker - run "sh ./deploy.sh dev".</br>
 5) Access the Application at http://localhost:8080/</br>
 6) To stop and Removing all containers - run "sh ./clean.sh".</br></br>
