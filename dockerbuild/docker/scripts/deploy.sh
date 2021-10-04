@@ -15,7 +15,7 @@ mvn clean package
 
 # Enter docker-compose folder
 
-cd build/docker/
+cd dockerbuild/docker/
 
 # Get the profile from
 # command line arguement
