@@ -4,12 +4,40 @@
 package com.bharathi.shopping.customer.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
 
 /**
  * @author bharathidasan
  *
  */
+@Entity
+@Table(name="user")
 public class User implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="user_id")
+	private int id;
 	
 	private String username;
 	
@@ -20,6 +48,12 @@ public class User implements Serializable {
 	private String email;
 	
 	private int mobile;
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	@JoinTable(name="user_x_address", 
+		joinColumns=@JoinColumn(name="user_id"),
+		inverseJoinColumns=@JoinColumn(name="address_id"))
+	 private List<Address> address;
 
 	/**
 	 * @return the username
@@ -89,6 +123,74 @@ public class User implements Serializable {
 	 */
 	public void setMobile(int mobile) {
 		this.mobile = mobile;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public List<Address> getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", mobile=" + mobile + "]";
+	}
+
+	/**
+	 * @param username
+	 * @param firstName
+	 * @param lastName
+	 * @param email
+	 * @param mobile
+	 * @param address
+	 */
+	public User(String username, String firstName, String lastName, String email, int mobile) {
+		super();
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.mobile = mobile;
+	}
+	
+	//for bi-directional relationship
+	public void addAddress(Address p_address) {
+		
+		if(address ==null) {
+			address = new ArrayList<Address>();
+		}
+		
+		address.add(p_address);
+		
+	}
+
+	/**
+	 * 
+	 */
+	public User() {
 	}
 
 }

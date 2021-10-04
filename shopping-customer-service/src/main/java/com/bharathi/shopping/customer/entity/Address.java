@@ -4,12 +4,36 @@
 package com.bharathi.shopping.customer.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * @author bharathidasan
  *
  */
+@Entity
+@Table(name="address")
 public class Address implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="address_id")
+	private int id;
 	
 	private String fullName;
 	
@@ -30,6 +54,13 @@ public class Address implements Serializable {
 	private String landmark;
 	
 	private String addressType;
+	
+	@JsonIgnore
+	@ManyToOne(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	@JoinTable(name="user_x_address", 
+		joinColumns=@JoinColumn(name="address_id"),
+		inverseJoinColumns=@JoinColumn(name="user_id"))
+	private List<User> user;
 
 	/**
 	 * @return the fullName
@@ -169,6 +200,47 @@ public class Address implements Serializable {
 	 */
 	public void setAddressType(String addressType) {
 		this.addressType = addressType;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public List<User> getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(List<User> user) {
+		this.user = user;
+	}
+
+	/**
+	 * 
+	 */
+	public Address() {
+	}
+
+	@Override
+	public String toString() {
+		return "Address [fullName=" + fullName + ", mobile=" + mobile + ", pincode=" + pincode + ", address1="
+				+ address1 + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", country=" + country
+				+ ", landmark=" + landmark + ", addressType=" + addressType + "]";
 	}
 
 }
