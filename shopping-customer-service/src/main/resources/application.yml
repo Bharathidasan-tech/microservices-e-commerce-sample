@@ -1,6 +1,13 @@
 spring:
   application.name: shopping-customer-service
-  jackson:    serialization:      indent-output: trueserver:
+  datasource:
+    tomcat:
+      test-while-idle: true
+      validation-query: SELECT 1
+  jackson:
+    serialization:
+      indent-output: true
+      server:
   servlet:    context-path: /
   port: 8082
   ---
@@ -16,7 +23,28 @@ spring:
         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s
-        prefer-ip-address: true
+    loadbalancer:
+      ribbon:
+        enabled: false
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:customer-service;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: bharathi
+    password: bharathi
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+logging:
+  level:
+    '[org.springframework.web]': warn
+    '[com.bharathi.shopping]': info
 
 ---
 #oauth2 configuration
@@ -27,11 +55,5 @@ security:
     client:
       client-id: web
       client-secret: pin        
-
-logging:
-  level:
-    org.springframework.web: DEBUG
-    com.bharathi.shopping: DEBUG
-    org.hibernate: DEBUG
 
 

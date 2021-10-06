@@ -7,18 +7,13 @@ spring:
   application:
     name: shopping-auth-service
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: 
-    driver-class-name: org.h2.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console:
-      enabled: true
+    tomcat:
+      test-while-idle: true
+      validation-query: SELECT 1
+  jackson:
+    serialization:
+      indent-output: true
+   
 
 ---
 # DOCKER CONFIGURATION
@@ -33,10 +28,27 @@ spring:
         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s
-        
+    loadbalancer:
+      ribbon:
+        enabled: false
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:auth-service;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: bharathi
+    password: bharathi
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
 logging:
   level:
-    web: debug
+    '[org.springframework.web]': warn
+    '[com.bharathi.shopping]': info
       
-
       

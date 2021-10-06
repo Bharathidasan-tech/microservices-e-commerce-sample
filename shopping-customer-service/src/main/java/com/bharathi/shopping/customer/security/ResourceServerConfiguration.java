@@ -31,13 +31,15 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         http.csrf().disable()
                 .sessionManagement().disable()
                 .authorizeRequests()
-                .antMatchers("/actuator/health", "/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .antMatchers("/actuator/health", "/swagger-ui/**","/v3/api-docs/**","/h2-console/**").permitAll()
                 .and()
                 .requestMatchers()
                 .antMatchers(SECURED_PATTERN).and().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SECURED_PATTERN)
                 .access(SECURED_WRITE_SCOPE)
                 .anyRequest().access(SECURED_READ_SCOPE);
+        
+        http.headers().frameOptions().disable();
     }
 
 }

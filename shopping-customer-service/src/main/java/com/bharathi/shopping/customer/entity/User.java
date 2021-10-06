@@ -4,6 +4,7 @@
 package com.bharathi.shopping.customer.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class User implements Serializable {
 	
 	private String email;
 	
-	private int mobile;
+	private BigInteger mobile;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinTable(name="user_x_address", 
@@ -86,7 +87,7 @@ public class User implements Serializable {
 	/**
 	 * @return the mobile
 	 */
-	public int getMobile() {
+	public BigInteger getMobile() {
 		return mobile;
 	}
 
@@ -121,7 +122,7 @@ public class User implements Serializable {
 	/**
 	 * @param mobile the mobile to set
 	 */
-	public void setMobile(int mobile) {
+	public void setMobile(BigInteger mobile) {
 		this.mobile = mobile;
 	}
 
@@ -167,7 +168,7 @@ public class User implements Serializable {
 	 * @param mobile
 	 * @param address
 	 */
-	public User(String username, String firstName, String lastName, String email, int mobile) {
+	public User(String username, String firstName, String lastName, String email, BigInteger mobile) {
 		super();
 		this.username = username;
 		this.firstName = firstName;

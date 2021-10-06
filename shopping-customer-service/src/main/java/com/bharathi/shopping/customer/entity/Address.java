@@ -4,11 +4,16 @@
 package com.bharathi.shopping.customer.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -37,7 +42,7 @@ public class Address implements Serializable {
 	
 	private String fullName;
 	
-	private int mobile;
+	private BigInteger mobile;
 	
 	private int pincode;
 	
@@ -72,7 +77,7 @@ public class Address implements Serializable {
 	/**
 	 * @return the mobile
 	 */
-	public int getMobile() {
+	public BigInteger getMobile() {
 		return mobile;
 	}
 
@@ -142,7 +147,7 @@ public class Address implements Serializable {
 	/**
 	 * @param mobile the mobile to set
 	 */
-	public void setMobile(int mobile) {
+	public void setMobile(BigInteger mobile) {
 		this.mobile = mobile;
 	}
 

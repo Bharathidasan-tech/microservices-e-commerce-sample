@@ -32,6 +32,7 @@ services:
       - "9090" 
     depends_on:
       - consul
+      - shopping-api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -49,7 +50,9 @@ services:
     expose:
       - "8082"
     depends_on: 
-      - consul      
+      - consul  
+      - shopping-api-gateway 
+      - shopping-auth-service   
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -69,6 +72,8 @@ services:
       - "8083"
     depends_on:
       - consul
+      - shopping-api-gateway
+      - shopping-auth-service
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -117,7 +122,6 @@ services:
 
 
 networks:
-
   backend:
     driver: bridge
   
