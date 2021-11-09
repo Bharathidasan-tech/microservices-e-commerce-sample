@@ -7,11 +7,14 @@ spring:
   jackson:
     serialization:
       indent-output: true
-      server:
-  servlet:    context-path: /
+      
+server:
+  servlet:
+    context-path: /
   port: 8082
-  ---
-# CONSUL CONFIGURATION
+
+---
+# DEV CONFIGURATION
 spring:
   profiles: dev
   cloud:
@@ -32,7 +35,7 @@ spring:
       settings:
         web-allow-others: true
   datasource:
-    url: jdbc:h2:mem:customer-service;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:customer-service
     driver-class-name: org.h2.Driver
     username: bharathi
     password: bharathi
@@ -40,6 +43,43 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+logging:
+  level:
+    '[org.springframework.web]': warn
+    '[com.bharathi.shopping]': info 
+---
+# DOCKER CONFIGURATION
+spring:
+  profiles: docker
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: shopping-customer-service
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+    loadbalancer:
+      ribbon:
+        enabled: false
+  datasource:
+    url: jdbc:mysql://localhost:3310/customerservice?createDatabaseIfNotExist=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: customerdb
+    password: customerdb
+    initialization-mode:  always
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
 logging:
   level:

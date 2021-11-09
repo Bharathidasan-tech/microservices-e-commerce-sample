@@ -2,7 +2,8 @@ spring:
   application.name: shopping-order-service
   jackson:
     serialization:
-      indent-output: true
+      indent-output: true
+
 server:
   servlet:
     context-path: /
@@ -10,7 +11,7 @@ server:
 ---
 #CONSUL CONFIGURATION
 spring:
-  profiles: dev
+  profiles: docker
   cloud:
     consul:
       host: consul
@@ -23,11 +24,16 @@ spring:
         prefer-ip-address: true
 ---
 #oauth2 configuration
-security:  oauth2:    resource:      token-info-uri: http://localhost:9090/oauth/check_token
-    client:      client-id: web
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:9090/oauth/check_token
+    client:
+      client-id: web
       client-secret: pin
    
-logging:
+
+logging:
   level:
     org.springframework.web: DEBUG
     com.bharathi.shopping: DEBUG

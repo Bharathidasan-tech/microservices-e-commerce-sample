@@ -11,4 +11,4 @@ ADD shopping-api-gateway.jar app.jar
 
 # run app as user 'booter'
 RUN /bin/sh -c 'touch /app.jar'
-ENTRYPOINT ["java", "-Xmx256m", "-Xss32m", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]

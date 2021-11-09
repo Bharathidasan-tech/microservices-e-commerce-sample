@@ -1,4 +1,4 @@
-CREATE TABLE user
+CREATE TABLE users
 (
    user_id     INT NOT NULL AUTO_INCREMENT,
    username    VARCHAR(255),
@@ -13,7 +13,7 @@ CREATE TABLE user
  CREATE TABLE address
  ( 
  address_id    INT NOT NULL AUTO_INCREMENT,
- fullName      VARCHAR2(255 CHAR),
+ fullName      VARCHAR(255),
  mobile    	   BIGINT,
  pincode       INT,
  address1      VARCHAR(255),
@@ -31,6 +31,6 @@ CREATE TABLE user_x_address
 ( 
 user_id     INT,
 address_id  INT,
-FOREIGN KEY (user_id) REFERENCES user (user_id),
+FOREIGN KEY (user_id) REFERENCES users (user_id),
 FOREIGN KEY (address_id) REFERENCES address (address_id)
 );

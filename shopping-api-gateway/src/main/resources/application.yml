@@ -1,1 +1,65 @@
-spring:  application.name: shopping-api-gatewaymanagement:  endpoint:      restart:        enabled: true      shutdown:        enabled: true      health:        show-details: never  server:  servlet:    context-path: /  port: 8080zuul:  ignoredServices: '*'  sensitive-headers:  - Cookie,Set-Cookie  host:    connect-timeout-millis: 60000    socket-timeout-millis: 60000      routes:    customer-service:      path: /customer-api/**      serviceId: shopping-customer-service    order-service:      path: /order-api/**      serviceId: shopping-order-service    auth-service:      path: /auth-api/**      serviceId: shopping-auth-service---#Set the Hystrix isolation policy to the thread pool and each route uses a separate thread poolzuul:  ribbon-isolation-strategy: thread  thread-pool:    use-separate-thread-pools: trueribbon:  ReadTimeout: 60000  ConnectTimeout: 60000  eager-load:    enabled: true---# DOCKER CONFIGURATIONspring:  profiles: dev  cloud:    consul:      host: consul      port: 8500      discovery:        hostname: shopping-api-gateway        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}        healthCheckPath: /actuator/health        healthCheckInterval: 15s        prefer-ip-address: true logging:  level:    org.springframework.web: DEBUG    com.bharathi.shopping: DEBUG    org.hibernate: DEBUG            
+spring:
+  application.name: shopping-api-gateway
+
+management:
+  endpoint:
+      restart:
+        enabled: true
+      shutdown:
+        enabled: true
+      health:
+        show-details: never
+  
+
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+zuul:
+  ignoredServices: '*'
+  sensitive-headers:
+  - Cookie,Set-Cookie   
+  routes:
+    customer-service:
+      path: /customer-api/**
+      serviceId: shopping-customer-service
+    order-service:
+      path: /order-api/**
+      serviceId: shopping-order-service
+    auth-service:
+      path: /auth-api/**
+      serviceId: shopping-auth-service
+---
+#Set the Hystrix isolation policy to the thread pool and each route uses a separate thread pool
+zuul:
+  ribbon-isolation-strategy: thread
+  thread-pool:
+    use-separate-thread-pools: true
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  eager-load:
+    enabled: true
+---
+# DOCKER CONFIGURATION
+spring:
+  profiles: docker
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+      discovery:
+        hostname: shopping-api-gateway
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+ 
+logging:
+  level:
+    '[org.springframework.web]': debug
+    '[com.bharathi.core]': debug
+    '[org.hibernate]': DEBUG
+    
+        

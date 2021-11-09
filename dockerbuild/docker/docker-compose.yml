@@ -12,8 +12,6 @@ services:
       - "8080:8080"
     expose:
       - "8080" 
-    depends_on:
-      - consul
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -30,9 +28,8 @@ services:
       - "9090:9090"
     expose:
       - "9090" 
-    depends_on:
-      - consul
-      - shopping-api-gateway
+    depends_on: 
+      - customer-service-db  
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -50,11 +47,28 @@ services:
     expose:
       - "8082"
     depends_on: 
-      - consul  
-      - shopping-api-gateway 
-      - shopping-auth-service   
+      - customer-service-db    
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
+    networks:
+      - backend
+
+  # ---------------------------
+  # Customer Service Database
+  # ---------------------------
+  customer-service-db:
+    container_name: "customer-service-db"
+    hostname: "customer-service-db"
+    image: "mysql/mysql-server:5.7"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=customerservice
+      - MYSQL_USER=customerdb
+      - MYSQL_PASSWORD=customerdb
+    ports:
+      - "3310:3306"
+    expose:
+      - "3310"
     networks:
       - backend
 
@@ -70,10 +84,6 @@ services:
       - "8083:8083"
     expose:
       - "8083"
-    depends_on:
-      - consul
-      - shopping-api-gateway
-      - shopping-auth-service
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:

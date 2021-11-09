@@ -16,10 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -38,6 +39,7 @@ public class Address implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="address_id")
+	@JsonProperty("id")
 	private int id;
 	
 	private String fullName;
@@ -61,11 +63,11 @@ public class Address implements Serializable {
 	private String addressType;
 	
 	@JsonIgnore
-	@ManyToOne(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinTable(name="user_x_address", 
 		joinColumns=@JoinColumn(name="address_id"),
 		inverseJoinColumns=@JoinColumn(name="user_id"))
-	private List<User> user;
+	private List<Users> users;
 
 	/**
 	 * @return the fullName
@@ -221,19 +223,7 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
-	/**
-	 * @return the user
-	 */
-	public List<User> getUser() {
-		return user;
-	}
 
-	/**
-	 * @param user the user to set
-	 */
-	public void setUser(List<User> user) {
-		this.user = user;
-	}
 
 	/**
 	 * 
@@ -246,6 +236,20 @@ public class Address implements Serializable {
 		return "Address [fullName=" + fullName + ", mobile=" + mobile + ", pincode=" + pincode + ", address1="
 				+ address1 + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", country=" + country
 				+ ", landmark=" + landmark + ", addressType=" + addressType + "]";
+	}
+
+	/**
+	 * @return the users
+	 */
+	public List<Users> getUsers() {
+		return users;
+	}
+
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(List<Users> users) {
+		this.users = users;
 	}
 
 }

@@ -8,11 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bharathi.shopping.customer.entity.User;
+import com.bharathi.shopping.customer.entity.Users;
 import com.bharathi.shopping.customer.service.CustomerService;
 
 
@@ -27,7 +28,7 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	
-	@RequestMapping(value="/test")
+	@GetMapping(value="/test")
 	public ResponseEntity<Object> testAPI(){
 		
 		Map<String, String> obj=new HashMap<String, String>();
@@ -39,14 +40,13 @@ public class CustomerController {
 		return new ResponseEntity<Object>(obj,HttpStatus.OK);
 	}
 	
-	 @PostMapping(value="/create",headers="Accept=application/json")
-	 public Map<String,List<User>> getAllUserDetails(){		
+	@GetMapping(value="/all",headers="Accept=application/json")
+	 public Map<String,List<Users>> getAllUserDetails(){		
 		 
-		 List<User> l_listofUser=customerService.findAll();
-			Map<String,List<User>> l_map=new HashMap<String,List<User>>();
-			l_map.put("users", l_listofUser);
-			return l_map;
-	   
+		 List<Users> l_listofUser=customerService.findAll();
+		 Map<String,List<Users>> l_map=new HashMap<String,List<Users>>();
+		 l_map.put("users", l_listofUser);
+		return l_map;	   
 
 	 }
 	 

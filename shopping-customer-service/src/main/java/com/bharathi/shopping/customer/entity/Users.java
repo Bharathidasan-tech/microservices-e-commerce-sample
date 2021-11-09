@@ -17,18 +17,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
 
 /**
+ * The Class Users.
  * @author bharathidasan
  *
  */
 @Entity
-@Table(name="user")
-public class User implements Serializable {
+@Table(name = "users")
+public class Users implements Serializable {
 	
 	/**
 	 * 
@@ -40,17 +41,22 @@ public class User implements Serializable {
 	@Column(name="user_id")
 	private int id;
 	
+	@Column (name = "username")
 	private String username;
 	
+	@Column (name = "firstName")
 	private String firstName;
 	
+	@Column (name = "lastName")
 	private String lastName;
 	
+	@Column (name = "email")
 	private String email;
 	
+	@Column (name = "mobile")
 	private BigInteger mobile;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinTable(name="user_x_address", 
 		joinColumns=@JoinColumn(name="user_id"),
 		inverseJoinColumns=@JoinColumn(name="address_id"))
@@ -156,7 +162,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "Users [username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", mobile=" + mobile + "]";
 	}
 
@@ -168,8 +174,7 @@ public class User implements Serializable {
 	 * @param mobile
 	 * @param address
 	 */
-	public User(String username, String firstName, String lastName, String email, BigInteger mobile) {
-		super();
+	public Users(String username, String firstName, String lastName, String email, BigInteger mobile) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -191,7 +196,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
-	public User() {
+	public Users() {
 	}
 
 }

@@ -3,7 +3,7 @@ then
 	echo "Usage:
     
 Input Parameters :
-	1) Profile name for e.x 'docker'"
+	1) Profile name for e.x 'dev'"
 	exit 1
 fi
 
@@ -17,8 +17,7 @@ mvn clean package
 
 cd dockerbuild/docker/
 
-# Get the profile from
-# command line arguement
+# Get the profile from command line arguement
 export profile=$1
 
 # Deploy
