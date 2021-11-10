@@ -45,7 +45,9 @@ ribbon:
 ---
 # DOCKER CONFIGURATION
 spring:
-  profiles: docker
+  profiles:
+    active:
+    - docker
   cloud:
     consul:
       host: consul
@@ -54,12 +56,10 @@ spring:
         hostname: shopping-api-gateway
         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
         healthCheckPath: /actuator/health
-        healthCheckInterval: 15s
+        healthCheckInterval: 50s
  
 logging:
   level:
     '[org.springframework.web]': debug
     '[com.bharathi.core]': debug
     '[org.hibernate]': DEBUG
-    
-        

@@ -12,6 +12,8 @@ services:
       - "8080:8080"
     expose:
       - "8080" 
+    depends_on:
+      - consul
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -27,9 +29,10 @@ services:
     ports:
       - "9090:9090"
     expose:
-      - "9090" 
-    depends_on: 
-      - customer-service-db  
+      - "9090"
+    depends_on:
+      - consul
+      - customer-service-db
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
@@ -46,14 +49,34 @@ services:
       - "8082:8082"
     expose:
       - "8082"
-    depends_on: 
-      - customer-service-db    
+    depends_on:
+      - consul
+      - customer-service-db   
     environment:
       - SPRING_PROFILES_ACTIVE=${profile}
     networks:
       - backend
 
+  
   # ---------------------------
+  # Order Service
+  # ---------------------------
+  shopping-order-service:
+    container_name: "shopping-order-service"
+    hostname: "shopping-order-service"
+    build: ../../shopping-order-service/target
+    ports:
+      - "8083:8083"
+    expose:
+      - "8083"
+    depends_on:
+      - consul
+    environment:
+      - SPRING_PROFILES_ACTIVE=${profile}
+    networks:
+      - backend
+
+# ---------------------------
   # Customer Service Database
   # ---------------------------
   customer-service-db:
@@ -71,24 +94,6 @@ services:
       - "3310"
     networks:
       - backend
-
-  
-  # ---------------------------
-  # Order Service
-  # ---------------------------
-  shopping-order-service:
-    container_name: "shopping-order-service"
-    hostname: "shopping-order-service"
-    build: ../../shopping-order-service/target
-    ports:
-      - "8083:8083"
-    expose:
-      - "8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=${profile}
-    networks:
-      - backend
-
 
   # ---------------------------
   # Registration and
@@ -128,8 +133,7 @@ services:
       - consul
       - consul2
     networks:
-      - backend
-
+      - backend 
 
 networks:
   backend:

@@ -11,7 +11,7 @@ fi
 cd ../../..
 
 # Build all the modules
-mvn clean package
+mvn clean package -Dmaven.test.skip=true
 
 # Enter docker-compose folder
 

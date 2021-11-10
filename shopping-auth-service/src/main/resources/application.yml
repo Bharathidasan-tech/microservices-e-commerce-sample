@@ -54,21 +54,23 @@ logging:
 ---
 # DOCKER CONFIGURATION
 spring:
-  profiles: docker
+  profiles: 
+    active:
+     - docker
   cloud:
     consul:
-      host: localhost
+      host: consul
       port: 8500
       discovery:
         hostname: shopping-auth-service
         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
         healthCheckPath: /actuator/health
-        healthCheckInterval: 15s
+        healthCheckInterval: 50s
     loadbalancer:
       ribbon:
         enabled: false
   datasource:
-    url: jdbc:mysql://localhost:3310/customerservice?createDatabaseIfNotExist=true
+    url: jdbc:mysql://customer-service-db/customerservice?createDatabaseIfNotExist=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: customerdb
     password: customerdb

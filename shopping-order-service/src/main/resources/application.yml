@@ -9,9 +9,11 @@ server:
     context-path: /
   port: 8083
 ---
-#CONSUL CONFIGURATION
+#DOCKER CONFIGURATION
 spring:
-  profiles: docker
+  profiles:
+    active:
+      - docker
   cloud:
     consul:
       host: consul
@@ -20,8 +22,7 @@ spring:
         hostname: shopping-order-service
         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
         healthCheckPath: /actuator/health
-        healthCheckInterval: 15s
-        prefer-ip-address: true
+        healthCheckInterval: 50s
 ---
 #oauth2 configuration
 security:
@@ -33,10 +34,6 @@ security:
       client-secret: pin
    
 
-logging:
-  level:
-    org.springframework.web: DEBUG
-    com.bharathi.shopping: DEBUG
-    org.hibernate: DEBUG
+
     
   

@@ -36,13 +36,13 @@ public class User implements Serializable
     @Column(name = "enabled")
     private boolean enabled;
 
-    @Column(name = "account_Non_Expired")
+    @Column(name = "accountNonExpired")
     private boolean accountNonExpired;
 
-    @Column(name = "credentials_Non_Expired")
+    @Column(name = "credentialsNonExpired")
     private boolean credentialsNonExpired;
 
-    @Column(name = "account_Non_Locked")
+    @Column(name = "accountNonLocked")
     private boolean accountNonLocked;
 
     @ManyToMany(fetch = FetchType.EAGER)
