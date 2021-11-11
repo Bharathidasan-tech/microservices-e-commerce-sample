@@ -93,7 +93,7 @@ logging:
 security:
   oauth2:
     resource:
-      token-info-uri: http://localhost:9090/oauth/check_token
+      token-info-uri: http://shopping-auth-service:9090/oauth/check_token
     client:
       client-id: web
       client-secret: pin        
