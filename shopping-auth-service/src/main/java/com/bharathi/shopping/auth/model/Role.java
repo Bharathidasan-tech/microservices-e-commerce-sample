@@ -24,7 +24,7 @@ public class Role implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "role_name")
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
